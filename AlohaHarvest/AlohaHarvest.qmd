@@ -1,0 +1,123 @@
+---
+title: "AlohaHarvest"
+format: 
+  closeread-html:
+    remove-header-space: true
+    cr-style:
+      section-background-color: "#f3f3f3"
+---
+
+:::{.cr-section}
+
+Across the US, 1 in 7 households experiences food insecurity @cr-US
+
+:::{#cr-US}
+Add here: US map with 1 in seven households overlayed
+:::
+
+
+Here in Hawaiʻi, the challenge is even greater with nearly 1 in 3
+households experiencing food insecurity @cr-HI
+
+:::{#cr-HI}
+Add here: HI map with 1 in three households overlayed
+:::
+
+
+And the numbers are even greater for some groups:
+
+:::
+
+:::{.cr-section layout="overlay-center"}
+
+32% of veterans @cr-bar
+
+44% of those enrolled in higher education or vocational school @cr-bar
+
+46% of LGBTQ+ individuals @cr-bar
+
+34-58% of households with children (numbers vary by household size and childrens' ages) @cr-bar
+
+:::{#cr-bar .scale-to-fill}
+![](Images/FoodInsecurity.png)
+:::
+
+:::
+
+:::{.cr-section}
+Meanwhile,  
+Hawaiʻi generates 189,000 tons of surplus food each year.  
+  
+This includes: @cr-box  
+
+:::{#cr-box}
+![](Images/EmptyBar.png)
+:::
+
+71,400 tons from restaurants and food service providers @cr-rfs
+
+:::{#cr-rfs}
+![](Images/FoodService.png)
+:::
+
+13,500 tons of imperfect grocery produce @cr-groc
+
+:::{#cr-groc}
+![](Images/Groceries.png)
+:::
+
+5,400 tons of unharvested agriculture @cr-crop
+
+:::{#cr-crop}
+![](Images/Agriculture.png)
+:::
+
+:::
+
+:::{.cr-section}
+
+Aloha Harvest turns these two big challenges into mutual solutions.  
+
+Every day, they collect food from @cr-donors
+
+groceries [@cr-donors]{highlight="linenumber(s)"}
+
+donor [@cr-donors]{highlight="linenumber(s)"}
+
+donor [@cr-donors]{highlight="linenumber(s)"}
+
+donor [@cr-donors]{highlight="linenumber(s)"}
+
+donor [@cr-donors]{highlight="linenumber(s)"}
+
+:::{#cr-donors}
+here: graphic listing donors
+:::
+
+and redistribute it to @cr-recips
+
+recipient [@cr-recips]{highlight="linenumber(s)"}
+
+recipient [@cr-recips]{highlight="linenumber(s)"}
+
+recipient [@cr-recips]{highlight="linenumber(s)"}
+
+recipient [@cr-recips]{highlight="linenumber(s)"}
+
+recipient [@cr-recips]{highlight="linenumber(s)"}
+
+:::{#cr-recips}
+here: graphic listing recipients
+:::
+
+Rescuing and redistributing ## tons of food each year @cr-donorsrecips
+
+:::{#cr-donorsrecips}
+here: combo donor recip graphic
+:::
+
+to learn more, visit [alohaharvest.org](alohaharvest.org) @cr-logo
+
+:::{#cr-logo}
+![](Images/Aloha-Harvest_Logo_2022_with-mission_200x100.png)
+:::
