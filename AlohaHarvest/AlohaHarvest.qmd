@@ -4,8 +4,10 @@ format:
   closeread-html:
     remove-header-space: true
     cr-style:
-      section-background-color: "#f3f3f3"
+      section-background-color: "#ffffff"
 ---
+
+![](Images/Aloha-Harvest_Logo_2022_with-mission_200x100.png){width=200 fig-align="center"}
 
 :::{.cr-section}
 
@@ -54,13 +56,13 @@ This includes: @cr-box
 ![](Images/EmptyBar.png)
 :::
 
-71,400 tons from restaurants and food service providers @cr-rfs
+71,400 tons from restaurants and food service providers, @cr-rfs
 
 :::{#cr-rfs}
 ![](Images/FoodService.png)
 :::
 
-13,500 tons of imperfect grocery produce @cr-groc
+13,500 tons of imperfect grocery produce, and @cr-groc
 
 :::{#cr-groc}
 ![](Images/Groceries.png)
@@ -80,15 +82,15 @@ Aloha Harvest turns these two big challenges into mutual solutions.
 
 Every day, they collect food from @cr-donors
 
-groceries [@cr-donors]{highlight="linenumber(s)"}
+groceries, [@cr-donors]{highlight="linenumber(s)"}
 
-donor [@cr-donors]{highlight="linenumber(s)"}
+retailers and wholesalers, [@cr-donors]{highlight="linenumber(s)"}
 
-donor [@cr-donors]{highlight="linenumber(s)"}
+farms, [@cr-donors]{highlight="linenumber(s)"}
 
-donor [@cr-donors]{highlight="linenumber(s)"}
+restaurants, and [@cr-donors]{highlight="linenumber(s)"}
 
-donor [@cr-donors]{highlight="linenumber(s)"}
+landowners [@cr-donors]{highlight="linenumber(s)"}
 
 :::{#cr-donors}
 here: graphic listing donors
@@ -96,21 +98,21 @@ here: graphic listing donors
 
 and redistribute it to @cr-recips
 
-recipient [@cr-recips]{highlight="linenumber(s)"}
+faith-based organizations, [@cr-recips]{highlight="linenumber(s)"}
 
-recipient [@cr-recips]{highlight="linenumber(s)"}
+schools ranging from preschools to community colleges, [@cr-recips]{highlight="linenumber(s)"}
 
-recipient [@cr-recips]{highlight="linenumber(s)"}
+shelters, [@cr-recips]{highlight="linenumber(s)"}
 
-recipient [@cr-recips]{highlight="linenumber(s)"}
+public housing sites, and [@cr-recips]{highlight="linenumber(s)"}
 
-recipient [@cr-recips]{highlight="linenumber(s)"}
+low-income elderly housing [@cr-recips]{highlight="linenumber(s)"}
 
 :::{#cr-recips}
 here: graphic listing recipients
 :::
 
-Rescuing and redistributing ## tons of food each year @cr-donorsrecips
+Rescuing and redistributing over 135 tons of food each year @cr-donorsrecips
 
 :::{#cr-donorsrecips}
 here: combo donor recip graphic
