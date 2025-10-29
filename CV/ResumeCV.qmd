@@ -1,0 +1,133 @@
+---
+title: "Phoebe Woodworth-Jefcoats, PhD"
+format: 
+  closeread-html:
+    cr-style:
+      section-background-color: white
+---
+
+Kaneohe, HI  |  (808) 358-7767  |  <phoebe.jefcoats@gmail.com>  
+[pwj-dataviz.com](https://www.pwj-dataviz.com)  |  LinkedIn: [pwoodworth-jefcoats](http://www.linkedin.com/in/pwoodworth-jefcoats)  |  GitHub: [pwoodworth-jefcoats](https://github.com/pwoodworth-jefcoats)  |  ORCiD: [0000-0001-9353-923X](https://orcid.org/0000-0001-9353-923X)  
+
+## Professional Summary
+I have over 20 years of experience turning large datasets into easy-to-understand
+graphics and reports, all backed by thorough data analysis.  I'm adept at workflows
+that merge data analysis and communication product development, including incorporating
+branding standards.  Across my work, I focus on using data to provide clarity, tell
+stories, and inform decisions for audiences ranging from technical experts to casual
+readers.  I embrace collaborative open science and contribute to the development of
+tools, templates, best practice guides, and hands-on training.
+
+::::{.cr-section}
+
+## Resume
+
+Some text here about this section being the resume (brief, just the highlights)
+
+Employment @cr-jobs
+
+:::{#cr-jobs}
+```{r, message = FALSE}
+# Load packages
+library(tidyverse, quietly = TRUE)
+library(here)
+
+# Following an example from:
+# https://r-graph-gallery.com/web-vertical-line-chart-with-ggplot2.html
+# with an assist from phind.com and 
+# https://github.com/clementrx/Closeread-Prize/blob/main/index.qmd
+
+# Load data
+jobs <- read.csv(here("CV", "Data", "Employment.csv"))
+
+ggplot() +
+  geom_segment(data = jobs, aes(x = Start, y = 10,
+                                xend = End, yend = 10,
+                                color = Employer),
+               linewidth = 5,
+               show.legend = FALSE) +
+  # to: create df for text labels so that templorally close ones don't overlap
+  geom_text(data = jobs, aes(x = End - 0.5, y = 11, label = Employer),
+            color = "#8A8A8A",
+            size = 3,
+            hjust = 0, # Left-aligned
+            # vjust = 1, # Adjust vertical position of text,
+            show.legend = FALSE) +
+  geom_text(data = jobs, aes(x = End - 1.5, y = 11.25, label = Position),
+            color = "#9A9A9A",
+            size = 2.5,
+            hjust = 0, # Left-aligned
+            show.legend = FALSE) +
+  scale_y_continuous(
+    limits = c(0, 20),
+    position = "left") +
+  scale_x_continuous(
+    limits = c(2002, 2026)) +
+  # to do: fix colors.  clearly going with organizations' logo colors won't work.
+  scale_color_manual(values = c("#003087", "#77BDE7", "#22549F", "#003087")) +
+  theme_void() +
+  coord_flip()
+
+```
+:::
+
+Education @cr-schools
+
+
+:::{#cr-schools}
+```{r}
+# Load data
+school <- read.csv(here("CV", "Data", "Education.csv"))
+
+# Build on previous plot
+# which means replicating code from above
+ggplot() +
+  geom_segment(data = jobs, aes(x = Start, y = 10,
+                                xend = End, yend = 10,
+                                color = Employer),
+               linewidth = 5,
+               show.legend = FALSE) +
+  # to: create df for text labels so that templorally close ones don't overlap
+  geom_text(data = jobs, aes(x = End - 0.5, y = 11, label = Employer),
+            color = "#8A8A8A",
+            size = 3,
+            hjust = 0, # Left-aligned
+            # vjust = 1, # Adjust vertical position of text,
+            show.legend = FALSE) +
+  geom_text(data = jobs, aes(x = End - 1.5, y = 11.25, label = Position),
+            color = "#9A9A9A",
+            size = 2.5,
+            hjust = 0, # Left-aligned
+            show.legend = FALSE) +
+  scale_y_continuous(
+    limits = c(0, 20),
+    position = "left") +
+  scale_x_continuous(
+    limits = c(2002, 2026)) +
+  # to do: fix colors.  clearly going with organizations' logo colors won't work.
+  scale_color_manual(values = c("#003087", "#77BDE7", "#22549F", "#003087")) +
+  theme_void() +
+  coord_flip() +
+# new stuff added to plot
+  geom_point(data = school, aes(x = Date, y = 10, size = 5),
+             show.legend = FALSE) +
+  geom_text(data = school, aes(x = Date, y = 1, label = Degree),
+            color = "#8A8A8A",
+            size = 3,
+            hjust = 0, # Left-aligned
+            show.legend = FALSE) +
+  geom_text(data = school, aes(x = Date, y = 2.5, label = School),
+            color = "#9A9A9A",
+            size = 2.5,
+            hjust = 0, # Left-aligned
+            show.legend = FALSE) +
+  geom_text(data = school, aes(x = Date-1, y = 1, label = Subject),
+            color = "#9A9A9A",
+            size = 3,
+            hjust = 0, # Left-aligned
+            show.legend = FALSE)
+
+```
+:::
+
+::::
