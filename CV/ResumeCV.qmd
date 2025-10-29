@@ -130,4 +130,54 @@ ggplot() +
 ```
 :::
 
+Curriculumn Vitae
+
+Some text here about this being the CV (more detailed)
+
+There are many ways you could visualize one's career.  Let's see a few of them:
+
+Examples here.
+
+You could group publications by type and personal contribution: @cr-pub-tree
+
+:::{#cr-pub-tree}
+```{r}
+library(treemapify)
+
+# code chunk experimenting with treemaps
+
+Products <- read_csv(here("CV", "Data", "Products.csv"), show_col_types = FALSE)
+
+Products_byYearTypeAuthor <- Products %>%
+  count(Year, Type, Author)
+  
+ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
+                                      subgroup = Year,
+                                      subgroup2 = Type)) +
+  geom_treemap() +
+  geom_treemap_subgroup2_border(colour = "black", size = 3) +
+  geom_treemap_subgroup_border(colour = "white", size = 5) +
+  geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
+                             "black", fontface = "italic", min.size = 0) +
+  geom_treemap_subgroup2_text(place = "centre", grow = T, alpha = 0.5, colour =
+                             "white", fontface = "italic", min.size = 0) # +
+  # geom_treemap_text(colour = "grey", place = "topleft", reflow = T)
+
+```
+:::
+
 ::::
+
+Things to to/add (beyond what's noted in the comments in the code):  
+
+* Years
+* Figure out why the CV section heading isn't displaying properly, and why
+subsequent figures don't display at all if the section header coding is added (`##`)  
+* Make the treemap look nice (nice colors, legible text)  
+* Add additional years to treemap fig  
+* Add grouped/stacked bar alternative (both as an alternative to the treemap and
+as an alternative to traditional stacked or grouped bar charts)  
+* Figure out a figure to show the evolution of my career focus over time,
+something like analysis (supporting author) to lead (first author) to data 
+viz pivot (templates, tutorials, etc. [and add the rest of these to Products.csv])
+
