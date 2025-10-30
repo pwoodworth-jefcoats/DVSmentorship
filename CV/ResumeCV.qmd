@@ -155,8 +155,9 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
                                       subgroup = Year,
                                       subgroup2 = Type)) +
   geom_treemap() +
-  geom_treemap_subgroup2_border(colour = "black", size = 3) +
-  geom_treemap_subgroup_border(colour = "white", size = 5) +
+  scale_fill_discrete(name = "Authorship") +
+  geom_treemap_subgroup2_border(colour = "white", size = 3) +
+  geom_treemap_subgroup_border(colour = "black", size = 5) +
   geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
                              "black", fontface = "italic", min.size = 0) +
   geom_treemap_subgroup2_text(place = "centre", grow = T, alpha = 0.5, colour =
@@ -170,9 +171,12 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
 
 Things to to/add (beyond what's noted in the comments in the code):  
 
-* Years
+* Years (move education labels to the right so years can be on the left)
+* Add skills, professional development, etc. to resume
 * Figure out why the CV section heading isn't displaying properly, and why
 subsequent figures don't display at all if the section header coding is added (`##`)  
+* Add a blank figure or something else at the start of the CV section so the timeline 
+stops displaying (distracts from the new message)
 * Make the treemap look nice (nice colors, legible text)  
 * Add additional years to treemap fig  
 * Add grouped/stacked bar alternative (both as an alternative to the treemap and
@@ -180,4 +184,6 @@ as an alternative to traditional stacked or grouped bar charts)
 * Figure out a figure to show the evolution of my career focus over time,
 something like analysis (supporting author) to lead (first author) to data 
 viz pivot (templates, tutorials, etc. [and add the rest of these to Products.csv])
+* Maybe something to show where I've published (maybe vs. where I've reviewed for?) 
+and to highlight accomplishments like publishing in *Nature*
 
