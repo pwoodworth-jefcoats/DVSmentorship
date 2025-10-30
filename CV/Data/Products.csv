@@ -4,7 +4,7 @@ JournalArticle,Supporting,None,None,2025,A climate informed stock assessment and
 JournalArticle,Supporting,Some,Some,2025,Variability of the Transition Zone Chlorophyll Front and its relationship to large-scale climate phenomena,Progress in Oceanography,Professional,https://doi.org/10.1016/j.pocean.2025.103537
 JournalArticle,Supporting,None,Some,2025,Applications of species distribution modeling and future needs to support marine resource management,ICES Journal of Marine Science,Professional,https://doi.org/10.1093/icesjms/fsaf024
 JournalArticle,Supporting,None,Some,2025,Global and Regional Marine Ecosystem Models Reveal Key Uncertainties in Climate Change Projections,Earth's Future,Professional,https://doi.org/10.1029/2024EF005537
-JournalArticle,Supporting,None,None,2025,Applications of species distribution modeling and future needs to support marine resource management,Earth's Future,Professional,https://doi.org/10.1029/2024EF004826
+JournalArticle,Supporting,None,None,2025,An integrated global-to-regional scale workflow for simulating climate change impacts on marine ecosystems,Earth's Future,Professional,https://doi.org/10.1029/2024EF004826
 AgencyPublication,Supporting,NA,NA,2025,"Summary report from the 6th Collaborative Climate Workshop, 9–11 April 2024 (Administrative Report Series, H-25-04)",NOAA Administrative Report,Professional,https://doi.org/10.25923/qy05-mm10
 Website,First,All,All,2025,Court5Composts,Website,Personal,https://www.court5composts.org/
 Dashboard,First,All,All,2025,Indicator Dashboard,Dashboard,Professional,https://connect.fisheries.noaa.gov/PelagicClimateSAFE/
@@ -32,3 +32,22 @@ AgencyPublication,Supporting,NA,NA,2023,Ecosystem-based fisheries (EBF) science 
 AgencyPublication,First,NA,NA,2023,Pacific Islands Regional Action Plan to implement the NOAA Fisheries Climate Science Strategy Through 2024,NOAA Tech Memo,Professional,https://doi.org/10.25923/2jjs-tx42
 Presentation,Supporting,None,None,2023,NOAA Fisheries Distribution Mapping and Analysis Portal (DisMAP): Visualizing changing distributions,5th Symposium on the Effects of Climate Change on the World's Ocean,Professional,NA
 Presentation,First,All,All,2023,Playing it SAFE: Stock Assessment and Fishery Evaluation indicators for climate-ready sustainable fisheries,5th Symposium on the Effects of Climate Change on the World's Ocean,Professional,NA
+JournalArticle,Supporting,None,None,2022,Anticyclonic eddies aggregate pelagic predators in a subtropical gyre,Nature,Professional,https://doi.org/10.1038/s41586-022-05162-6
+JournalArticle,Supporting,None,None,2022,Assessing the vulnerability of marine life to climate-change in the Pacific Islands Region,PLoS ONE,Professional,https://doi.org/10.1371/journal.pone.0270930
+AgencyPublication,Supporting,None,None,2022,10-year pelagic sampling strategy (2023-2032),NOAA Administrative Report,Professional,https://doi.org/10.25923/nw52-tn17
+AgencyPublication,First,NA,NA,2022,"Summary report from the 5th annual collaborative climate science workshop, 8–10 February 2022",NOAA Administrative Report,Professional,https://doi.org/10.25923/rh4j-st93
+Presentation,First,All,All,2022,FishMIP as a testbed for model development,FishMIP 2022 Hybrid Workshop,Professional,NA
+Presentation,Supporting,None,None,2021,"Widespread plastic ingestion in an abundant pelagic fish species, Alepisaurus ferox, across the subtropical North Pacific",PICES 2021 Annual Meeting,Professional,NA
+AgencyPublication,Supporting,Some,Some,2021,NOAA Fisheries Climate Science Strategy Five Year Progress Report,NOAA Administrative Report,Professional,NA
+AgencyPublication,First,NA,NA,2021,"Summary report from the 4th annual collaborative climate science workshop, 13 – 15 October 2020",NOAA Administrative Report,Professional,https://doi.org/10.25923/ezac-hk23
+JournalArticle,Supporting,None,None,2021,Disentangling diverse responses to climate change among global marine ecosystem models,Progress in Oceanography,Professional,https://doi.org/10.1016/j.pocean.2021.102659
+JournalArticle,Supporting,None,None,2021,Using global-scale earth system models for regional fisheries applications,Frontiers in Marine Science,Professional,https://doi.org/10.3389/fmars.2021.622206
+JournalArticle,Supporting,None,None,2020,Spatiotemporal segregation of ocean sunfish species (Molidae) in the eastern North Pacific,Marine Ecology Progress Series,Professional,https://doi.org/10.3354/meps13514
+JournalArticle,First,Some,Some,2020,Towards an environmental predictor of bigeye recruitment,Fisheries Oceanography,Professional,https://doi.org/10.1111/fog.12487
+Tutorial,First,All,NA,2022,Temperature-dependent rates in mizer,Website,Professional,https://blog.mizer.sizespectrum.org/posts/2022-07-11-thermizer/
+AgencyPublication,Supporting,None,None,2020,Report of the 5th National Ecosystem Modeling Workshop (NEMoW 5): Progress in Ecosystem Modeling for Living Marine Resource Management,NOAA Tech Memo,Professional,NA
+AgencyPublication,First,Some,Some,2020,"Summary report from the 3rd annual collaborative climate science workshop, 11 – 12 September 2019",NOAA Administrative Report,Professional,https://doi.org/10.25923/56vx-1f34
+Presentation,First,Some,Some,2020,Towards a plankton-based predictor of tuna recruitment,PICES 2020 Annual Meeting,Professional,NA
+Poster,Supporting,None,None,2020,"Examining surface and subsurface drivers of variability in the distribution of mesopelagic prey through the diet of longnose lancetfish, Alepisaurus ferox",Ocean Sciences Meeting,Professional,NA
+Presentation,First,All,All,2020,Incorporating temperature into size spectrum modeling,International Symposium on Size Spectrum Models for Aquatic Ecosystems,Professional,NA
+JournalIssue,Editor,NA,NA,2019,Understanding changes in transitional areas of the Pacific Ocean (Special Issue),Deep-Sea Research II,Professional,https://doi.org/10.1016/j.dsr2.2019.104688
