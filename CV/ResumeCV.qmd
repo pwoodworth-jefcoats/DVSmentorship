@@ -4,6 +4,7 @@ format:
   closeread-html:
     cr-style:
       section-background-color: white
+    theme: [zephyr, custom.scss]
 ---
 
 Kaneohe, HI  |  (808) 358-7767  |  <phoebe.jefcoats@gmail.com>  
@@ -39,32 +40,50 @@ library(here)
 
 # Load data
 jobs <- read.csv(here("CV", "Data", "Employment.csv"))
+labels <- read.csv(here("CV", "Data", "TimelineLabels.csv"))
+labels_jobs <- labels |>
+  filter(category == "job")
+
+# This is tedius, but not sure of a better way
+lj1 <- labels |>
+  filter(category == "job_1")
+lj2 <- labels |>
+  filter(category == "job_2")
+lj3 <- labels |>
+  filter(category == "job_3")
 
 ggplot() +
   geom_segment(data = jobs, aes(x = Start, y = 10,
                                 xend = End, yend = 10,
                                 color = Employer),
-               linewidth = 5,
+               linewidth = 3,
                show.legend = FALSE) +
-  # to: create df for text labels so that templorally close ones don't overlap
-  geom_text(data = jobs, aes(x = End - 0.5, y = 11, label = Employer),
-            color = "#8A8A8A",
-            size = 3,
-            hjust = 0, # Left-aligned
-            # vjust = 1, # Adjust vertical position of text,
+  geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
             show.legend = FALSE) +
-  geom_text(data = jobs, aes(x = End - 1.5, y = 11.25, label = Position),
-            color = "#9A9A9A",
-            size = 2.5,
-            hjust = 0, # Left-aligned
+  geom_text(data = lj1, aes(x = x, y = y, label = label),
+            color = "#003087",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj2, aes(x = x, y = y, label = label),
+            color = "#77BDE7",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj3, aes(x = x, y = y, label = label),
+            color = "#22549F",
+            size = 4,
+            hjust = 0,
             show.legend = FALSE) +
   scale_y_continuous(
-    limits = c(0, 20),
+    limits = c(0, 100),
     position = "left") +
   scale_x_continuous(
     limits = c(2002, 2026)) +
   # to do: fix colors.  clearly going with organizations' logo colors won't work.
-  scale_color_manual(values = c("#003087", "#77BDE7", "#22549F", "#003087")) +
+  scale_color_manual(values = c("#77BDE7", "#22549F", "#003087")) +
   theme_void() +
   coord_flip()
 
@@ -79,58 +98,73 @@ Education @cr-schools
 # Load data
 school <- read.csv(here("CV", "Data", "Education.csv"))
 
+labels_school <- labels |>
+  filter(category == "degree")
+
 # Build on previous plot
 # which means replicating code from above
 ggplot() +
   geom_segment(data = jobs, aes(x = Start, y = 10,
                                 xend = End, yend = 10,
                                 color = Employer),
-               linewidth = 5,
+               linewidth = 3,
                show.legend = FALSE) +
-  # to: create df for text labels so that templorally close ones don't overlap
-  geom_text(data = jobs, aes(x = End - 0.5, y = 11, label = Employer),
-            color = "#8A8A8A",
-            size = 3,
-            hjust = 0, # Left-aligned
-            # vjust = 1, # Adjust vertical position of text,
+  geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
             show.legend = FALSE) +
-  geom_text(data = jobs, aes(x = End - 1.5, y = 11.25, label = Position),
-            color = "#9A9A9A",
-            size = 2.5,
-            hjust = 0, # Left-aligned
+  geom_text(data = lj1, aes(x = x, y = y, label = label),
+            color = "#003087",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj2, aes(x = x, y = y, label = label),
+            color = "#77BDE7",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj3, aes(x = x, y = y, label = label),
+            color = "#22549F",
+            size = 4,
+            hjust = 0,
             show.legend = FALSE) +
   scale_y_continuous(
-    limits = c(0, 20),
+    limits = c(0, 100),
     position = "left") +
   scale_x_continuous(
     limits = c(2002, 2026)) +
   # to do: fix colors.  clearly going with organizations' logo colors won't work.
-  scale_color_manual(values = c("#003087", "#77BDE7", "#22549F", "#003087")) +
+  scale_color_manual(values = c("#77BDE7", "#22549F", "#003087")) +
   theme_void() +
   coord_flip() +
 # new stuff added to plot
-  geom_point(data = school, aes(x = Date, y = 10, size = 5),
+  geom_point(data = school, aes(x = Date, y = 10),
+             shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
              show.legend = FALSE) +
-  geom_text(data = school, aes(x = Date, y = 1, label = Degree),
-            color = "#8A8A8A",
-            size = 3,
-            hjust = 0, # Left-aligned
-            show.legend = FALSE) +
-  geom_text(data = school, aes(x = Date, y = 2.5, label = School),
-            color = "#9A9A9A",
-            size = 2.5,
-            hjust = 0, # Left-aligned
-            show.legend = FALSE) +
-  geom_text(data = school, aes(x = Date-1, y = 1, label = Subject),
-            color = "#9A9A9A",
-            size = 3,
-            hjust = 0, # Left-aligned
+  geom_text(data = labels_school, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
             show.legend = FALSE)
+  # geom_text(data = school, aes(x = Date, y = 11, label = Degree),
+  #           color = "#8A8A8A",
+  #           size = 3,
+  #           hjust = 0, # Left-aligned
+  #           show.legend = FALSE) +
+  # geom_text(data = school, aes(x = Date, y = 12.5, label = School),
+  #           color = "#9A9A9A",
+  #           size = 2.5,
+  #           hjust = 0, # Left-aligned
+  #           show.legend = FALSE) +
+  # geom_text(data = school, aes(x = Date-1, y = 11, label = Subject),
+  #           color = "#9A9A9A",
+  #           size = 3,
+  #           hjust = 0, # Left-aligned
+  #           show.legend = FALSE)
 
 ```
 :::
 
-Curriculumn Vitae
+Curriculum Vitae
 
 Some text here about this being the CV (more detailed)
 
@@ -138,43 +172,28 @@ There are many ways you could visualize one's career.  Let's see a few of them:
 
 Examples here.
 
-You could group publications by type and personal contribution: @cr-pub-tree
+You could group publications by year, type, and personal contribution: @cr-pub-dot
 
-:::{#cr-pub-tree}
+:::{#cr-pub-dot}
 ```{r}
-library(treemapify)
+library(ggiraph)
 
-# code chunk experimenting with treemaps
-
-Products <- read_csv(here("CV", "Data", "Products.csv"), show_col_types = FALSE)
-
-Products_byYearTypeAuthor <- Products %>%
-  count(Year, Type, Author)
-  
-ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
-                                      subgroup = Year,
-                                      subgroup2 = Type)) +
-  geom_treemap() +
-  scale_fill_discrete(name = "Authorship") +
-  geom_treemap_subgroup2_border(colour = "white", size = 3) +
-  geom_treemap_subgroup_border(colour = "black", size = 5) +
-  geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
-                             "black", fontface = "italic", min.size = 0) +
-  geom_treemap_subgroup2_text(place = "centre", grow = T, alpha = 0.5, colour =
-                             "white", fontface = "italic", min.size = 0) # +
-  # geom_treemap_text(colour = "grey", place = "topleft", reflow = T)
 
 ```
+
 :::
 
-::::
+:::::
 
 Things to to/add (beyond what's noted in the comments in the code):  
 
-* Years (move education labels to the right so years can be on the left)
 * Add skills, professional development, etc. to resume
 * Figure out why the CV section heading isn't displaying properly, and why
 subsequent figures don't display at all if the section header coding is added (`##`)  
+  - Update: this problem appears to be a documented bug.  No fix yet.  For more, see:  
+  <https://github.com/quarto-dev/quarto-cli/issues/12470>  
+and  
+<https://github.com/qmd-lab/closeread/issues/176>
 * Add a blank figure or something else at the start of the CV section so the timeline 
 stops displaying (distracts from the new message)
 * Make the treemap look nice (nice colors, legible text)  
@@ -187,3 +206,26 @@ viz pivot (templates, tutorials, etc. [and add the rest of these to Products.csv
 * Maybe something to show where I've published (maybe vs. where I've reviewed for?) 
 and to highlight accomplishments like publishing in *Nature*
 
+```{r}
+# # Moving this chunk to the end, ignoring for now
+# library(treemapify)
+# 
+# Products <- read_csv(here("CV", "Data", "Products.csv"), show_col_types = FALSE)
+# 
+# Products_byYearTypeAuthor <- Products %>%
+#   count(Year, Type, Author)
+#   
+# ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
+#                                       subgroup = Year,
+#                                       subgroup2 = Type)) +
+#   geom_treemap() + 
+#   scale_fill_discrete(name = "Authorship") +
+#   geom_treemap_subgroup2_border(colour = "white", size = 3) +
+#   geom_treemap_subgroup_border(colour = "black", size = 5) +
+#   geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
+#                              "black", fontface = "italic", min.size = 0) +
+#   geom_treemap_subgroup2_text(place = "centre", grow = T, alpha = 0.5, colour =
+#                              "white", fontface = "italic", min.size = 0) # +
+#   # geom_treemap_text(colour = "grey", place = "topleft", reflow = T)
+# 
+```
