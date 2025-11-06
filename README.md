@@ -10,8 +10,8 @@ Hopefully there will also be a cool mapping project using leaflet (details TBD).
 Some updates from working on the CV project:  
 
 * Closeread appears not to like headings that start with the letter _c_.  Strange. 
-I've asked a question about it on GitHub to try to determine whether it's a bug 
-or my error.  Until then, I'll use creative headings. Sigh...
+[Bug reported](https://github.com/qmd-lab/closeread/issues/187) and fingers crossed 
+for a quick fix.  Until then, I'll use a placeholder heading.
 * It doesn't look like ggiraph and treemapify work together:  
 > Error in `geom_treemap_interactive()`:  
 > ! could not find function "geom_treemap_interactive"  
