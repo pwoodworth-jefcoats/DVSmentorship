@@ -93,6 +93,8 @@ Education @cr-schools
 
 :::{#cr-schools}
 ```{r}
+library(ggiraph) # For interactive elements
+
 # Load data
 school <- read.csv(here("CV", "Data", "Education.csv"))
 
@@ -142,11 +144,71 @@ ggplot() +
             size = 4,
             hjust = 0,
             show.legend = FALSE)
+```
+:::
+
+Education (testing ggiraph for interactivity) @cr-inter-schools
+
+:::{#cr-inter-schools}
+```{r}
+library(ggiraph) # For interactive elements
+
+# Load data
+school <- read.csv(here("CV", "Data", "Education.csv"))
+
+labels_school <- labels |>
+  filter(category == "degree")
+
+# Build on previous plot
+# which means replicating code from above
+edu_interactive <- ggplot() +
+  geom_segment(data = jobs, aes(x = Start, y = 10,
+                                xend = End, yend = 10,
+                                color = Employer),
+               linewidth = 3,
+               show.legend = FALSE) +
+  geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj1, aes(x = x, y = y, label = label),
+            color = "#003087",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj2, aes(x = x, y = y, label = label),
+            color = "#77BDE7",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj3, aes(x = x, y = y, label = label),
+            color = "#3366cc",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  scale_y_continuous(
+    limits = c(0, 100),
+    position = "left") +
+  scale_x_continuous(
+    limits = c(2002, 2026)) +
+  scale_color_manual(values = c("#77BDE7", "#3366cc", "#003087")) +
+  theme_void() +
+  coord_flip() +
+# new stuff added to plot
+  geom_point_interactive(data = school, aes(x = Date, y = 10, tooltip = Focus),
+             shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
+             show.legend = FALSE) +
+  geom_text(data = labels_school, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE)
+
+girafe(ggobj = edu_interactive)
 
 ```
 :::
 
-## Test head
+## Placeholder head
 
 Digging deeper, there's more to visualize. @cr-mt
 
@@ -187,20 +249,99 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
 :::
 
 We can dive even deeper to see what each of those products are.  Mouse
-over the figure for details.
+over the figure for details (eventually). @cr-pub-dot
+
+:::{#cr-pub-dot}
+```{r}
+# Order publication types so that those with the greatest numbers are first.
+Products_ord <- Products |>
+  mutate(Type = factor(Type, 
+                       levels = c("JournalArticle", "Presentation", "AgencyPublication",
+                                  "Poster", "Dashboard", "Template", "Website", 
+                                  "JournalIssue", "Tutorial", "ContentAndGraphics")))
+
+# Split pubs apart by author role, then put them in order, then number them.
+pubs_supp <- Products_ord |>
+  filter(Author == "Supporting") |>
+  arrange(Type) |>
+  mutate(n = NA)
+
+pubs_first <- Products_ord |>
+  filter(Author == "First") |>
+  arrange(Type) |>
+  mutate(n = NA)
+
+pubs_inv <- Products_ord |>
+  filter(Author == "Invited") |>
+  arrange(Type) |>
+  mutate(n = NA)
+
+pubs_ed <- Products_ord |>
+  filter(Author == "Editor") |>
+  arrange(Type) |>
+  mutate(n = NA)
+
+# Numbering within each year, for nice plotting
+for (yr in seq(min(Products$Year), max(Products$Year), 1)) {
+  supp_idx <- which(pubs_supp$Year == yr)
+  first_idx <- which(pubs_first$Year == yr)
+  inv_idx <- which(pubs_inv$Year == yr)
+  ed_idx <- which(pubs_ed$Year == yr)
+  
+  if (length(supp_idx) > 0) {
+    pubs_supp$n[supp_idx] = seq(1, length(supp_idx), 1)
+  }
+  
+  if (length(first_idx) > 0) {
+    pubs_first$n[first_idx] = seq(1, length(first_idx), 1)
+  }
+  
+  if (length(inv_idx) > 0) {
+    pubs_inv$n[inv_idx] = seq(1, length(inv_idx), 1)
+  }
+  
+  if (length(ed_idx) > 0) {
+    pubs_ed$n[ed_idx] = seq(1, length(ed_idx), 1)
+  }
+}
+
+# Plot everthing
+ggplot() +
+  geom_point(data = pubs_first, aes(x = Year - 0.15, y = n, color = Type)) +
+  geom_point(data = pubs_supp, aes(x = Year - 0.05, y = n, color = Type)) +
+  geom_point(data = pubs_inv, aes(x = Year + 0.05, y = n, color = Type)) +
+  geom_point(data = pubs_ed, aes(x = Year + 0.15, y = n, color = Type))
+
+```
+:::
+
+Another possible way to do this (work in progress) @cr-pub-bar
+
+:::{#cr-pub-bar}
+```{r}
+pubs_first$Year = pubs_first$Year - 0.3
+pubs_supp$Year = pubs_supp$Year - 0.1
+pubs_inv$Year = pubs_inv$Year + 0.1
+pubs_ed$Year = pubs_ed$Year + 0.3
+
+ggplot() +
+  geom_bar(data = pubs_first, aes(x = Year, fill = Type), width = 0.2) +
+  geom_bar(data = pubs_supp, aes(x = Year, fill = Type), width = 0.2) +
+  geom_bar(data = pubs_inv, aes(x = Year, fill = Type), width = 0.2) +
+  geom_bar(data = pubs_ed, aes(x = Year, fill = Type), width = 0.2)
+```
+:::
 
 ::::
 Things to to/add (beyond what's noted in the comments in the code):  
 
-* Add skills, professional development, etc. to resume
+* Add skills, professional development, etc. to resume section.  Perhaps using 
+ggiraph so the scroller doesn't get too long.
 * Figure out why the CV section heading isn't displaying properly, and why
 subsequent figures don't display at all if the section header coding is added (`##`)  
-  - Update: this problem appears to be a documented bug.  No fix yet.  For more, see:  
-  <https://github.com/quarto-dev/quarto-cli/issues/12470>  
-and  
-<https://github.com/qmd-lab/closeread/issues/176>  
-  - Subsequent update: this problem actually seems to be tied to headings that start
-  with the letter _c_.  Weird.  <https://github.com/qmd-lab/closeread/discussions/186>
+  - Update: this problem is actually tied to a bug preventing headings that start
+  with the letter _c_.  Weird.  <https://github.com/qmd-lab/closeread/discussions/186> 
+  and <https://github.com/qmd-lab/closeread/issues/187>
 
 * Make the treemap look nice (nice colors, legible text)  
   - Will do this once figure is complete so I can be sure the colors will work in 
