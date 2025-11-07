@@ -15,7 +15,6 @@ for a quick fix.  Until then, I'll use a placeholder heading.
 * It doesn't look like ggiraph and treemapify work together:  
 > Error in `geom_treemap_interactive()`:  
 > ! could not find function "geom_treemap_interactive"  
-This is a bummer because I like treemaps.  I guess it's a good motivator to 
-find some alternatives.  
+
 
 This ReadMe will be updated as things come together.
