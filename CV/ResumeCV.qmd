@@ -332,6 +332,30 @@ ggplot() +
 ```
 :::
 
+(work in progress)
+We could also look at how the types of publications evolve over time @cr-pub-evolve
+
+:::{#cr-pub-evolve}
+```{r}
+library(ggbump)
+
+pub_types <- Products_ord |>
+  count(Year, Type) |>
+  filter(Year > 2019) |>
+  mutate(ranking = rank(desc(n), ties.method = "first"), .by = Year)
+
+selected <- c("Presentation", "AgencyPublication", "JournalArticle")
+
+ggplot(pub_types, aes(x = Year, y = ranking, group = Type)) +
+  geom_bump(linewidth = 0.5, color = "lightgrey", smooth = 7,
+            data = ~. |> filter(Type %in% selected)) +
+  geom_bump(aes(color = Type), linewidth = 1, smooth = 7, 
+            data = ~. |> filter(Type %in% selected)) +
+  scale_y_reverse()
+
+```
+:::
+
 ::::
 Things to to/add (beyond what's noted in the comments in the code):  
 
