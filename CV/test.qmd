@@ -7,6 +7,18 @@ format:
     theme: [zephyr, custom.scss]
 ---
 
+Kaneohe, HI  |  (808) 358-7767  |  <phoebe.jefcoats@gmail.com>  
+[pwj-dataviz.com](https://www.pwj-dataviz.com)  |  LinkedIn: [pwoodworth-jefcoats](http://www.linkedin.com/in/pwoodworth-jefcoats)  |  GitHub: [pwoodworth-jefcoats](https://github.com/pwoodworth-jefcoats)  |  ORCiD: [0000-0001-9353-923X](https://orcid.org/0000-0001-9353-923X)  
+
+## Professional Summary
+I have over 20 years of experience turning large datasets into easy-to-understand
+graphics and reports, all backed by thorough data analysis.  I'm adept at workflows
+that merge data analysis and communication product development, including incorporating
+branding standards.  Across my work, I focus on using data to provide clarity, tell
+stories, and inform decisions for audiences ranging from technical experts to casual
+readers.  I embrace collaborative open science and contribute to the development of
+tools, templates, best practice guides, and hands-on training.
+
 ```{r}
 #| include: false
 #| message: false
@@ -21,49 +33,103 @@ knitr::opts_chunk$set(
 
 ::::{.cr-section}
 
-Education @cr-schools
+## Resume
 
-:::{#cr-schools}
+Here's a brief look at the jobs I've had and the degrees I've earned.
 
-```{r}
-  
-# Load libraroes
-library(dplyr)
-library(ggplot2)
+Employment @cr-jobs
+
+:::{#cr-jobs}
+```{r, message = FALSE}
+# Load packages
+library(tidyverse, quietly = TRUE)
 library(here)
 library(ggiraph) # For interactive elements
 
+# Following an example from:
+# https://r-graph-gallery.com/web-vertical-line-chart-with-ggplot2.html
+# with an assist from phind.com and 
+# https://github.com/clementrx/Closeread-Prize/blob/main/index.qmd
+
 # Load data
 jobs <- read.csv(here("CV", "Data", "Employment.csv"))
-school <- read.csv(here("CV", "Data", "Education.csv"))
 labels <- read.csv(here("CV", "Data", "TimelineLabels.csv"))
+labels_jobs <- labels |>
+  filter(category == "job")
 
-labels_jobs <- labels |> filter(category == "job")
-labels_school <- labels |> filter(category == "degree")
+# This is tedius, but not sure of a better way
+lj1 <- labels |>
+  filter(category == "job_1")
+lj2 <- labels |>
+  filter(category == "job_2")
+lj3 <- labels |>
+  filter(category == "job_3")
 
-# This is tedious, but not sure of a better way
-lj1 <- labels |> filter(category == "job_1")
-lj2 <- labels |> filter(category == "job_2")
-lj3 <- labels |> filter(category == "job_3")
+employ_interactive <- ggplot() +
+  geom_segment_interactive(data = jobs, aes(x = Start, y = 10,
+                                            xend = End, yend = 10,
+                                            color = Employer,
+                                            tooltip = Focus),
+                           linewidth = 3,
+                           show.legend = FALSE) +
+  geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj1, aes(x = x, y = y, label = label),
+            color = "#003087",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj2, aes(x = x, y = y, label = label),
+            color = "#77BDE7",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = lj3, aes(x = x, y = y, label = label),
+            color = "#3366cc",
+            size = 4,
+            hjust = 0,
+            show.legend = FALSE) +
+  scale_y_continuous(
+    limits = c(0, 100),
+    position = "left") +
+  scale_x_continuous(
+    limits = c(2002, 2026)) +
+  scale_color_manual(values = c("#77BDE7", "#3366cc", "#003087")) +
+  theme_void() +
+  coord_flip() 
 
+girafe(ggobj = employ_interactive,
+       options = list(
+         opts_tooltip(
+           opacity = 0.9
+         )
+       )
+       )
 
-# p <- ggplot(data = jobs,
-#        aes(x = Start, y = End)) +
-#   geom_point_interactive(
-#     aes(tooltip = Position)
-#   )
-# 
-# # Turn it into an interactive ggiraph plot
-# girafe(ggobj = p)
+```
+:::
+
+Education @cr-schools
+
+:::{#cr-schools}
+```{r}
+# Load data
+school <- read.csv(here("CV", "Data", "Education.csv"))
+
+labels_school <- labels |> 
+  filter(category == "degree")
 
 # Build on previous plot
 # which means replicating code from above
 edu_interactive <- ggplot() +
-geom_segment(data = jobs, aes(x = Start, y = 10,
-                              xend = End, yend = 10,
-                              color = Employer),
-             linewidth = 3,
-             show.legend = FALSE) +
+geom_segment_interactive(data = jobs, aes(x = Start, y = 10,
+                                            xend = End, yend = 10,
+                                            color = Employer,
+                                            tooltip = Focus),
+                           linewidth = 3,
+                           show.legend = FALSE) +
 geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
           size = 4,
           hjust = 0,
@@ -91,7 +157,7 @@ scale_x_continuous(
 scale_color_manual(values = c("#77BDE7", "#3366cc", "#003087")) +
 theme_void() +
 coord_flip() +
-# # new stuff added to plot
+# new stuff added to plot
 geom_point_interactive(data = school, aes(x = Date, y = 10, tooltip = Focus),
            shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
            show.legend = FALSE) +
@@ -107,6 +173,18 @@ girafe(ggobj = edu_interactive,
          )
        )
        )
+```
+:::
+
+## Placeholder head
+
+Digging deeper, there's more to visualize. @cr-mt
+
+:::{#cr-mt}
+```{r}
+ggplot() +
+  geom_blank() +
+  theme_void()
 ```
 :::
 
