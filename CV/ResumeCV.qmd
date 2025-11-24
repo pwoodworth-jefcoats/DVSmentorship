@@ -19,6 +19,18 @@ stories, and inform decisions for audiences ranging from technical experts to ca
 readers.  I embrace collaborative open science and contribute to the development of
 tools, templates, best practice guides, and hands-on training.
 
+```{r}
+#| include: false
+#| message: false
+#| warning: false
+
+# Global setup
+knitr::opts_chunk$set(
+  message = FALSE,
+  warning = FALSE
+)
+```
+
 ::::{.cr-section}
 
 ## Resume
@@ -32,6 +44,7 @@ Employment @cr-jobs
 # Load packages
 library(tidyverse, quietly = TRUE)
 library(here)
+library(ggiraph) # For interactive elements
 
 # Following an example from:
 # https://r-graph-gallery.com/web-vertical-line-chart-with-ggplot2.html
@@ -52,12 +65,13 @@ lj2 <- labels |>
 lj3 <- labels |>
   filter(category == "job_3")
 
-ggplot() +
-  geom_segment(data = jobs, aes(x = Start, y = 10,
-                                xend = End, yend = 10,
-                                color = Employer),
-               linewidth = 3,
-               show.legend = FALSE) +
+employ_interactive <- ggplot() +
+  geom_segment_interactive(data = jobs, aes(x = Start, y = 10,
+                                            xend = End, yend = 10,
+                                            color = Employer,
+                                            tooltip = Focus),
+                           linewidth = 3,
+                           show.legend = FALSE) +
   geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
             size = 4,
             hjust = 0,
@@ -84,7 +98,15 @@ ggplot() +
     limits = c(2002, 2026)) +
   scale_color_manual(values = c("#77BDE7", "#3366cc", "#003087")) +
   theme_void() +
-  coord_flip()
+  coord_flip() 
+
+girafe(ggobj = employ_interactive,
+       options = list(
+         opts_tooltip(
+           opacity = 0.9
+         )
+       )
+       )
 
 ```
 :::
@@ -93,66 +115,6 @@ Education @cr-schools
 
 :::{#cr-schools}
 ```{r}
-library(ggiraph) # For interactive elements
-
-# Load data
-school <- read.csv(here("CV", "Data", "Education.csv"))
-
-labels_school <- labels |>
-  filter(category == "degree")
-
-# Build on previous plot
-# which means replicating code from above
-ggplot() +
-  geom_segment(data = jobs, aes(x = Start, y = 10,
-                                xend = End, yend = 10,
-                                color = Employer),
-               linewidth = 3,
-               show.legend = FALSE) +
-  geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE) +
-  geom_text(data = lj1, aes(x = x, y = y, label = label),
-            color = "#003087",
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE) +
-  geom_text(data = lj2, aes(x = x, y = y, label = label),
-            color = "#77BDE7",
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE) +
-  geom_text(data = lj3, aes(x = x, y = y, label = label),
-            color = "#3366cc",
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE) +
-  scale_y_continuous(
-    limits = c(0, 100),
-    position = "left") +
-  scale_x_continuous(
-    limits = c(2002, 2026)) +
-  scale_color_manual(values = c("#77BDE7", "#3366cc", "#003087")) +
-  theme_void() +
-  coord_flip() +
-# new stuff added to plot
-  geom_point(data = school, aes(x = Date, y = 10),
-             shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
-             show.legend = FALSE) +
-  geom_text(data = labels_school, aes(x = x, y = y, label = label),
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE)
-```
-:::
-
-Education (testing ggiraph for interactivity) @cr-inter-schools
-
-:::{#cr-inter-schools}
-```{r}
-library(ggiraph) # For interactive elements
-
 # Load data
 school <- read.csv(here("CV", "Data", "Education.csv"))
 
@@ -162,11 +124,12 @@ labels_school <- labels |>
 # Build on previous plot
 # which means replicating code from above
 edu_interactive <- ggplot() +
-  geom_segment(data = jobs, aes(x = Start, y = 10,
-                                xend = End, yend = 10,
-                                color = Employer),
-               linewidth = 3,
-               show.legend = FALSE) +
+geom_segment_interactive(data = jobs, aes(x = Start, y = 10,
+                                            xend = End, yend = 10,
+                                            color = Employer,
+                                            tooltip = Focus),
+                           linewidth = 3,
+                           show.legend = FALSE) +
   geom_text(data = labels_jobs, aes(x = x, y = y, label = label),
             size = 4,
             hjust = 0,
@@ -195,16 +158,21 @@ edu_interactive <- ggplot() +
   theme_void() +
   coord_flip() +
 # new stuff added to plot
-  geom_point_interactive(data = school, aes(x = Date, y = 10, tooltip = Focus),
-             shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
-             show.legend = FALSE) +
-  geom_text(data = labels_school, aes(x = x, y = y, label = label),
-            size = 4,
-            hjust = 0,
-            show.legend = FALSE)
+geom_point_interactive(data = school, aes(x = Date, y = 10, tooltip = Focus),
+           shape = 21, color = "white", fill = "black", size = 5, stroke = 0.7,
+           show.legend = FALSE) +
+geom_text(data = labels_school, aes(x = x, y = y, label = label),
+          size = 4,
+          hjust = 0,
+          show.legend = FALSE)
 
-girafe(ggobj = edu_interactive)
-
+girafe(ggobj = edu_interactive,
+       options = list(
+         opts_tooltip(
+           opacity = 0.9
+         )
+       )
+       )
 ```
 :::
 
@@ -256,9 +224,11 @@ over the figure for details (eventually). @cr-pub-dot
 # Order publication types so that those with the greatest numbers are first.
 Products_ord <- Products |>
   mutate(Type = factor(Type, 
-                       levels = c("JournalArticle", "Presentation", "AgencyPublication",
+                       levels = c("Journal Article", "Presentation", "Agency Publication",
                                   "Poster", "Dashboard", "Template", "Website", 
-                                  "JournalIssue", "Tutorial", "ContentAndGraphics")))
+                                  "Journal Issue", "Tutorial", "Book Chapter",
+                                  "PICES Special Publication",
+                                  "Content and Graphics")))
 
 # Split pubs apart by author role, then put them in order, then number them.
 pubs_supp <- Products_ord |>
@@ -341,17 +311,16 @@ library(ggbump)
 
 pub_types <- Products_ord |>
   count(Year, Type) |>
-  filter(Year > 2019) |>
   mutate(ranking = rank(desc(n), ties.method = "first"), .by = Year)
 
-selected <- c("Presentation", "AgencyPublication", "JournalArticle")
+selected <- c("Presentation", "AgencyPublication", "JournalArticle", "Dashboard")
 
-ggplot(pub_types, aes(x = Year, y = ranking, group = Type)) +
+ggplot(pub_types, aes(x = Year, y = n, group = Type)) +
   geom_bump(linewidth = 0.5, color = "lightgrey", smooth = 7,
             data = ~. |> filter(Type %in% selected)) +
   geom_bump(aes(color = Type), linewidth = 1, smooth = 7, 
-            data = ~. |> filter(Type %in% selected)) +
-  scale_y_reverse()
+            data = ~. |> filter(Type %in% selected)) # +
+  # scale_y_reverse()
 
 ```
 :::
@@ -367,6 +336,12 @@ subsequent figures don't display at all if the section header coding is added (`
   with the letter _c_.  Weird.  <https://github.com/qmd-lab/closeread/discussions/186> 
   and <https://github.com/qmd-lab/closeread/issues/187>
 
+* Figure out why:  
+  - all interactive elements are available even before the plot calling them is 
+  triggered,
+  - there can only be interactive elements if no non-interactive plots follow them
+  (this is why ggirafe wasn't/isn't working, as far as I can tell)
+  
 * Make the treemap look nice (nice colors, legible text)  
   - Will do this once figure is complete so I can be sure the colors will work in 
   the final plot.  
