@@ -176,6 +176,9 @@ girafe(ggobj = edu_interactive,
 ```
 :::
 
+::::
+
+::::{.cr-section}
 ## Placeholder head
 
 Digging deeper, there's more to visualize. @cr-mt
@@ -195,6 +198,8 @@ For example, publications by year, type, and personal contribution: @cr-pub-tree
 # Decided to keep this for now
 library(treemapify)
 
+# Colors from paletteer_d("rockthemes::secontlaw"), but black switched out
+
 Products <- read_csv(here("CV", "Data", "Products.csv"), show_col_types = FALSE)
 
 Products_byYearTypeAuthor <- Products %>%
@@ -204,7 +209,8 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
                                       subgroup = Year,
                                       subgroup2 = Type)) +
   geom_treemap() +
-  scale_fill_discrete(name = "Authorship") +
+  scale_fill_discrete(name = "Authorship",
+                      type = c("#808080", "#58958C", "#9D7382", "#505797")) +
   geom_treemap_subgroup2_border(colour = "white", size = 3) +
   geom_treemap_subgroup_border(colour = "black", size = 5) +
   geom_treemap_subgroup_text(place = "centre", grow = T, alpha = 0.5, colour =
@@ -340,12 +346,9 @@ subsequent figures don't display at all if the section header coding is added (`
   - all interactive elements are available even before the plot calling them is 
   triggered,
   - there can only be interactive elements if no non-interactive plots follow them
-  (this is why ggirafe wasn't/isn't working, as far as I can tell)
+  (this is why ggirafe wasn't/isn't working, as far as I can tell)  
+    - Update: fixed this by adding a new closeread section for the non-interactive plots
   
-* Make the treemap look nice (nice colors, legible text)  
-  - Will do this once figure is complete so I can be sure the colors will work in 
-  the final plot.  
-* Add additional years to treemap fig  
 * Add grouped/stacked bar alternative (both as an alternative to the treemap and
 as an alternative to traditional stacked or grouped bar charts)  
 * Figure out a figure to show the evolution of my career focus over time,
