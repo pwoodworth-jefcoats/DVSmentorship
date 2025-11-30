@@ -198,7 +198,7 @@ For example, publications by year, type, and personal contribution: @cr-pub-tree
 # Decided to keep this for now
 library(treemapify)
 
-# Colors from paletteer_d("rockthemes::secontlaw"), but black switched out
+# Colors from paletteer_d("rockthemes::secondlaw"), but black switched out
 
 Products <- read_csv(here("CV", "Data", "Products.csv"), show_col_types = FALSE)
 
@@ -295,38 +295,16 @@ Another possible way to do this (work in progress) @cr-pub-bar
 
 :::{#cr-pub-bar}
 ```{r}
-pubs_first$Year = pubs_first$Year - 0.3
-pubs_supp$Year = pubs_supp$Year - 0.1
-pubs_inv$Year = pubs_inv$Year + 0.1
-pubs_ed$Year = pubs_ed$Year + 0.3
+library(paletteer) # for color palette
 
 ggplot() +
-  geom_bar(data = pubs_first, aes(x = Year, fill = Type), width = 0.2) +
-  geom_bar(data = pubs_supp, aes(x = Year, fill = Type), width = 0.2) +
-  geom_bar(data = pubs_inv, aes(x = Year, fill = Type), width = 0.2) +
-  geom_bar(data = pubs_ed, aes(x = Year, fill = Type), width = 0.2)
-```
-:::
-
-(work in progress)
-We could also look at how the types of publications evolve over time @cr-pub-evolve
-
-:::{#cr-pub-evolve}
-```{r}
-library(ggbump)
-
-pub_types <- Products_ord |>
-  count(Year, Type) |>
-  mutate(ranking = rank(desc(n), ties.method = "first"), .by = Year)
-
-selected <- c("Presentation", "AgencyPublication", "JournalArticle", "Dashboard")
-
-ggplot(pub_types, aes(x = Year, y = n, group = Type)) +
-  geom_bump(linewidth = 0.5, color = "lightgrey", smooth = 7,
-            data = ~. |> filter(Type %in% selected)) +
-  geom_bump(aes(color = Type), linewidth = 1, smooth = 7, 
-            data = ~. |> filter(Type %in% selected)) # +
-  # scale_y_reverse()
+  geom_bar(data = Products_ord, aes(x = Type, fill = Type)) +
+  scale_fill_paletteer_d("rcartocolor::Prism") +
+  # scale_fill_paletteer_d("rcartocolor::Safe") + # looked a little chaotic
+  facet_wrap(~Year) +
+  labs(y = "Count") +
+  theme(axis.text.x = element_blank(),
+        axis.ticks.x = element_blank())
 
 ```
 :::
