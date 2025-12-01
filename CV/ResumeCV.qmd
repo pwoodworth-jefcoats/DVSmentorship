@@ -17,7 +17,9 @@ that merge data analysis and communication product development, including incorp
 branding standards.  Across my work, I focus on using data to provide clarity, tell
 stories, and inform decisions for audiences ranging from technical experts to casual
 readers.  I embrace collaborative open science and contribute to the development of
-tools, templates, best practice guides, and hands-on training.
+tools, templates, best practice guides, and hands-on training.  
+\
+Scroll through my resume and CV below.  Mouse over the graphics for more details.
 
 ```{r}
 #| include: false
@@ -33,9 +35,7 @@ knitr::opts_chunk$set(
 
 ::::{.cr-section}
 
-## Resume
-
-Here's a brief look at the jobs I've had and the degrees I've earned.
+## My Resume
 
 Employment @cr-jobs
 
@@ -179,19 +179,9 @@ girafe(ggobj = edu_interactive,
 ::::
 
 ::::{.cr-section}
-## Placeholder head
+## My CV
 
-Digging deeper, there's more to visualize. @cr-mt
-
-:::{#cr-mt}
-```{r}
-ggplot() +
-  geom_blank() +
-  theme_void()
-```
-:::
-
-For example, publications by year, type, and personal contribution: @cr-pub-tree
+Overview of my publications by year, type, and personal contribution: @cr-pub-tree
 
 :::{#cr-pub-tree}
 ```{r}
@@ -222,12 +212,13 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
 ```
 :::
 
-We can dive even deeper to see what each of those products are.  Mouse
-over the figure for details (eventually). @cr-pub-dot
+Detailed look at my publications by year and type: @cr-pub-bar
 
-:::{#cr-pub-dot}
+:::{#cr-pub-bar}
 ```{r}
-# Order publication types so that those with the greatest numbers are first.
+library(paletteer) # for color palette
+
+# Change Type to factor for better plotting
 Products_ord <- Products |>
   mutate(Type = factor(Type, 
                        levels = c("Journal Article", "Presentation", "Agency Publication",
@@ -236,69 +227,11 @@ Products_ord <- Products |>
                                   "PICES Special Publication",
                                   "Content and Graphics")))
 
-# Split pubs apart by author role, then put them in order, then number them.
-pubs_supp <- Products_ord |>
-  filter(Author == "Supporting") |>
-  arrange(Type) |>
-  mutate(n = NA)
-
-pubs_first <- Products_ord |>
-  filter(Author == "First") |>
-  arrange(Type) |>
-  mutate(n = NA)
-
-pubs_inv <- Products_ord |>
-  filter(Author == "Invited") |>
-  arrange(Type) |>
-  mutate(n = NA)
-
-pubs_ed <- Products_ord |>
-  filter(Author == "Editor") |>
-  arrange(Type) |>
-  mutate(n = NA)
-
-# Numbering within each year, for nice plotting
-for (yr in seq(min(Products$Year), max(Products$Year), 1)) {
-  supp_idx <- which(pubs_supp$Year == yr)
-  first_idx <- which(pubs_first$Year == yr)
-  inv_idx <- which(pubs_inv$Year == yr)
-  ed_idx <- which(pubs_ed$Year == yr)
-  
-  if (length(supp_idx) > 0) {
-    pubs_supp$n[supp_idx] = seq(1, length(supp_idx), 1)
-  }
-  
-  if (length(first_idx) > 0) {
-    pubs_first$n[first_idx] = seq(1, length(first_idx), 1)
-  }
-  
-  if (length(inv_idx) > 0) {
-    pubs_inv$n[inv_idx] = seq(1, length(inv_idx), 1)
-  }
-  
-  if (length(ed_idx) > 0) {
-    pubs_ed$n[ed_idx] = seq(1, length(ed_idx), 1)
-  }
-}
-
-# Plot everthing
-ggplot() +
-  geom_point(data = pubs_first, aes(x = Year - 0.15, y = n, color = Type)) +
-  geom_point(data = pubs_supp, aes(x = Year - 0.05, y = n, color = Type)) +
-  geom_point(data = pubs_inv, aes(x = Year + 0.05, y = n, color = Type)) +
-  geom_point(data = pubs_ed, aes(x = Year + 0.15, y = n, color = Type))
-
-```
-:::
-
-Another possible way to do this (work in progress) @cr-pub-bar
-
-:::{#cr-pub-bar}
-```{r}
-library(paletteer) # for color palette
-
-ggplot() +
-  geom_bar(data = Products_ord, aes(x = Type, fill = Type)) +
+pub_interactive <- ggplot() +
+  geom_bar_interactive(data = Products_ord, 
+                       aes(x = Type, fill = Type,
+                           tooltip = ifelse(!is.na(Link), Link, Title))) + 
+  # geom_bar(data = Products_ord, aes(x = Type, fill = Type)) +
   scale_fill_paletteer_d("rcartocolor::Prism") +
   # scale_fill_paletteer_d("rcartocolor::Safe") + # looked a little chaotic
   facet_wrap(~Year) +
@@ -306,8 +239,69 @@ ggplot() +
   theme(axis.text.x = element_blank(),
         axis.ticks.x = element_blank())
 
+girafe(ggobj = pub_interactive,
+       options = list(
+         opts_tooltip(
+           opacity = 0.9
+         )
+       )
+       )
+
 ```
 :::
+
+::::
+
+::::{.cr-section}
+## My Career Evolution
+
+The focus of my work has changed over time _work in progress_: @cr-role-evolve
+
+
+:::{#cr-role-evolve}
+```{r}
+library(ggbump)
+
+# Create factor for role based on a combination of Type and Author
+Products_role <- Products |>
+  mutate(Role = NA)
+
+for (r in seq(1, dim(Products_role)[1], 1)) {
+  if (Products_role$Type[r] == "Template") {
+    Products_role$Role[r] = "Instruction"
+    } else if ((Products_role$Type[r] == "Dashboard" | 
+                Products_role$Type[r] == "Website" |
+                Products_role$Type[r] == "Content And Graphics")) {
+      Products_role$Role[r] = "Data Visualization"
+      } else {
+        if(Products_role$Author[r] == "Supporting") {
+          Products_role$Role[r] = "Data Analysis"
+          } else {
+            Products_role$Role[r] = "Project Leadership"
+          }
+      }
+}
+rm(r)
+
+pub_roles <- Products_role |>
+  count(Year, Role) |>
+  mutate(ranking = rank(desc(n), ties.method = "first"), .by = Year)
+
+# selected <- c("Presentation", "AgencyPublication", "JournalArticle", "Dashboard")
+
+ggplot(pub_roles, aes(x = Year, y = n, group = Role)) +
+  # geom_bump(linewidth = 0.5, color = "lightgrey", smooth = 7) +
+  geom_bump(aes(color = Role), linewidth = 1, smooth = 7) # +
+  # scale_y_reverse()
+
+# Things to fix:
+# - replace counts with rank (should be 1-4)
+# - add in elements for which there's only a single year (Instruction)
+
+```
+:::
+
+Add here: a sentence about what I'd like to do next and redirect to full cv/website/whatever
 
 ::::
 Things to to/add (beyond what's noted in the comments in the code):  
@@ -327,11 +321,9 @@ subsequent figures don't display at all if the section header coding is added (`
   (this is why ggirafe wasn't/isn't working, as far as I can tell)  
     - Update: fixed this by adding a new closeread section for the non-interactive plots
   
-* Add grouped/stacked bar alternative (both as an alternative to the treemap and
-as an alternative to traditional stacked or grouped bar charts)  
 * Figure out a figure to show the evolution of my career focus over time,
 something like analysis (supporting author) to lead (first author) to data 
-viz pivot (templates, tutorials, etc. [and add the rest of these to Products.csv])
-* Maybe something to show where I've published (maybe vs. where I've reviewed for?) 
-and to highlight accomplishments like publishing in *Nature*
+viz pivot (templates, tutorials, etc.)
+* Some kind of ending, even if it's just, "to see more, head to...."  
+* Replace all this with acknowledgements
 
