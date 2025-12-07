@@ -37,7 +37,9 @@ knitr::opts_chunk$set(
 
 ## My Resume
 
-Employment @cr-jobs
+**Employment**   
+Mouse over the timeline to see dates of employment 
+and job descriptions. @cr-jobs
 
 :::{#cr-jobs}
 ```{r, message = FALSE}
@@ -111,7 +113,8 @@ girafe(ggobj = employ_interactive,
 ```
 :::
 
-Education @cr-schools
+**Education**  
+Mouse over the circles to see academic focus. @cr-schools
 
 :::{#cr-schools}
 ```{r}
@@ -181,11 +184,11 @@ girafe(ggobj = edu_interactive,
 ::::{.cr-section}
 ## My CV
 
-Overview of my publications by year, type, and personal contribution: @cr-pub-tree
+**Publication Summary**  
+Publications grouped by year (black outlines) and type (white outlines), shaded by authorship role: @cr-pub-tree
 
 :::{#cr-pub-tree}
 ```{r}
-# Decided to keep this for now
 library(treemapify)
 
 # Colors from paletteer_d("rockthemes::secondlaw"), but black switched out
@@ -212,11 +215,14 @@ ggplot(Products_byYearTypeAuthor, aes(area = n, fill = Author, label = Author,
 ```
 :::
 
-Detailed look at my publications by year and type: @cr-pub-bar
+**Publication Details**  
+Mouse over the bars for a detailed look at my publications.  Publicly accessible publications are linked and will open in a new tab or window when you click on their links. @cr-pub-bar
 
 :::{#cr-pub-bar}
 ```{r}
 library(paletteer) # for color palette
+# Thanks to https://stackoverflow.com/questions/59468583/ggiraph-tooltip-with-hyperlink
+# for help with the clickablility
 
 # Change Type to factor for better plotting
 Products_ord <- Products |>
@@ -230,7 +236,10 @@ Products_ord <- Products |>
 pub_interactive <- ggplot() +
   geom_bar_interactive(data = Products_ord, 
                        aes(x = Type, fill = Type,
-                           tooltip = ifelse(!is.na(Link), Link, Title))) + 
+                           tooltip = ifelse((!is.na(Link) & Link != 'InReview'), 
+                                            paste0("<a href='", Link, "'>", Title, "</a>\n", Link), 
+                                            Title),
+                           onclick=paste0('window.open("', Link, '")'))) + 
   # geom_bar(data = Products_ord, aes(x = Type, fill = Type)) +
   scale_fill_paletteer_d("rcartocolor::Prism") +
   # scale_fill_paletteer_d("rcartocolor::Safe") + # looked a little chaotic
@@ -255,59 +264,62 @@ girafe(ggobj = pub_interactive,
 ::::{.cr-section}
 ## My Career Evolution
 
-The focus of my work has changed over time _work in progress_: @cr-role-evolve
-
+The focus of my work has changed over time, shifting from data analysis to subject matter expertise. I've also expanded into teaching roles, including instruction and data visualization. @cr-role-evolve
 
 :::{#cr-role-evolve}
 ```{r}
 library(ggbump)
+library(cowplot) # for plotting aesthetics
 
-# Create factor for role based on a combination of Type and Author
-Products_role <- Products |>
-  mutate(Role = NA)
+# colors from scale_color_paletteer_d("PrettyCols::Bold"), but reordered
 
-for (r in seq(1, dim(Products_role)[1], 1)) {
-  if (Products_role$Type[r] == "Template") {
-    Products_role$Role[r] = "Instruction"
-    } else if ((Products_role$Type[r] == "Dashboard" | 
-                Products_role$Type[r] == "Website" |
-                Products_role$Type[r] == "Content And Graphics")) {
-      Products_role$Role[r] = "Data Visualization"
-      } else {
-        if(Products_role$Author[r] == "Supporting") {
-          Products_role$Role[r] = "Data Analysis"
-          } else {
-            Products_role$Role[r] = "Project Leadership"
-          }
-      }
-}
-rm(r)
-
-pub_roles <- Products_role |>
+pub_roles <- Products |>
   count(Year, Role) |>
-  mutate(ranking = rank(desc(n), ties.method = "first"), .by = Year)
+  mutate(ranking = rank(desc(n), ties.method = "average"), .by = Year)
 
-# selected <- c("Presentation", "AgencyPublication", "JournalArticle", "Dashboard")
-
-ggplot(pub_roles, aes(x = Year, y = n, group = Role)) +
-  # geom_bump(linewidth = 0.5, color = "lightgrey", smooth = 7) +
-  geom_bump(aes(color = Role), linewidth = 1, smooth = 7) # +
-  # scale_y_reverse()
-
-# Things to fix:
-# - replace counts with rank (should be 1-4)
-# - add in elements for which there's only a single year (Instruction)
+ggplot(pub_roles, aes(x = Year, y = ranking, color = Role)) +
+  geom_bump(aes(color = Role), linewidth = 1, smooth = 7,
+            data = ~. |> filter(Role != "Data Analysis"), 
+            show.legend = FALSE) + 
+  scale_color_manual(values = c("#679C35", "#CD1076","#6497B1","#6A359C")) +
+  # To address overplotting
+  geom_bump(color = "#FFB04F", linetype = 1, linewidth = 1, smooth = 7,
+            data = ~. |> filter(Role == "Data Analysis")) +
+  geom_text(data = pub_roles |> 
+              filter(Year == max(Year)),
+            aes(x = Year + 1, y = ranking, label = Role), hjust = 0,
+            show.legend = FALSE) +
+  geom_text(data = pub_roles |> 
+              filter(Year == 2020 & Role == "Data Analysis"),
+            aes(x = Year + 6, y = ranking, label = Role), hjust = 0,
+            color = "#FFB04F",
+            show.legend = FALSE) +
+  scale_x_continuous(limits = c(2004, 2035),
+                     breaks = seq(2005, 2025, 5)) +
+  labs(y = "Rank",
+       x = NULL) +
+  scale_y_reverse() +
+  theme_minimal_vgrid()
 
 ```
 :::
 
+::::
+
 Add here: a sentence about what I'd like to do next and redirect to full cv/website/whatever
 
-::::
+___
+
+**Acknowledgments**  
+*This interactive CV was a [Data Visualization Society](https://www.datavisualizationsociety.org/)* 
+*mentorship project.  Thanks to DVS for making this opportunity possible and to my mentor, *
+*[Mark Hanley](https://github.com/MarkHanly), for suggesting my CV as data to visualize and *
+*helping me figure out how to do it.  Seeing where I've been has helped me figure out where I want to go.*    
+\
+*R packages and helpful links are noted throughout the code and comments.*
+
 Things to to/add (beyond what's noted in the comments in the code):  
 
-* Add skills, professional development, etc. to resume section.  Perhaps using 
-ggiraph so the scroller doesn't get too long.
 * Figure out why the CV section heading isn't displaying properly, and why
 subsequent figures don't display at all if the section header coding is added (`##`)  
   - Update: this problem is actually tied to a bug preventing headings that start
@@ -321,9 +333,6 @@ subsequent figures don't display at all if the section header coding is added (`
   (this is why ggirafe wasn't/isn't working, as far as I can tell)  
     - Update: fixed this by adding a new closeread section for the non-interactive plots
   
-* Figure out a figure to show the evolution of my career focus over time,
-something like analysis (supporting author) to lead (first author) to data 
-viz pivot (templates, tutorials, etc.)
 * Some kind of ending, even if it's just, "to see more, head to...."  
-* Replace all this with acknowledgements
+
 
